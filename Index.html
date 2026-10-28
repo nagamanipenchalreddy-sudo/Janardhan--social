@@ -1,0 +1,108 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>JANARDHAN</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;background:#050b1b;color:#f1f7ff;
+ font-family:Arial,sans-serif
+}
+header{
+ text-align:center;padding:22px 12px;
+ color:#38ddff;border-bottom:1px solid #123e68;
+ text-shadow:0 0 15px #008cff
+}
+main{max-width:520px;margin:auto;padding:16px}
+h2{color:#38ddff}
+textarea,input{
+ width:100%;padding:12px;border-radius:10px;
+ border:1px solid #168dff;background:#101c39;
+ color:white;margin:6px 0
+}
+button{
+ background:#19caff;color:#031126;border:0;
+ padding:11px 15px;border-radius:9px;
+ font-weight:bold;cursor:pointer;margin:5px 3px
+}
+.post{
+ background:#101c39;padding:14px;margin-top:14px;
+ border:1px solid #174c7b;border-radius:14px;
+ overflow-wrap:anywhere
+}
+small{color:#a9c9ee}
+nav{
+ display:flex;justify-content:space-around;
+ background:#0b1530;padding:14px;
+ position:sticky;bottom:0
+}
+nav button{margin:0;padding:10px 7px}
+</style>
+</head>
+<body>
+<header>
+ <h1>⚡ JANARDHAN</h1>
+ <p>CONNECT • SHARE • CREATE</p>
+</header>
+<main>
+ <section id="home">
+  <h2>Your feed</h2>
+  <textarea id="message" rows="3"
+  placeholder="What's on your mind?"></textarea>
+  <button onclick="sharePost()">＋ Share post</button>
+  <div id="feed"></div>
+ </section>
+ <section id="explore" hidden>
+  <h2>Explore</h2>
+  <p>Discover posts shared on this device.</p>
+ </section>
+ <section id="profile" hidden>
+  <h2>My profile</h2>
+  <input id="username" maxlength="24"
+  placeholder="Choose a display name">
+  <button onclick="saveName()">Save name</button>
+  <p id="profileName">Welcome!</p>
+ </section>
+</main>
+<nav>
+ <button onclick="showPage('home')">⌂ Home</button>
+ <button onclick="showPage('explore')">⌕ Explore</button>
+ <button onclick="showPage('profile')">♙ Profile</button>
+</nav>
+<script>
+function showPage(id){
+ ['home','explore','profile'].forEach(page=>{
+  document.getElementById(page).hidden=page!==id;
+ });
+}
+function sharePost(){
+ const input=document.getElementById('message');
+ const value=input.value.trim();
+ if(!value){alert('Write a post first!');return;}
+ const post=document.createElement('article');
+ post.className='post';
+ const author=document.createElement('b');
+ author.textContent=localStorage.getItem('janName')||'JANARDHAN user';
+ const content=document.createElement('p');
+ content.textContent=value;
+ const like=document.createElement('button');
+ like.textContent='♡ Like';
+ like.onclick=()=>{
+  like.textContent=like.textContent==='♡ Like'?'♥ Liked':'♡ Like';
+ };
+ post.append(author,content,like);
+ document.getElementById('feed').prepend(post);
+ input.value='';
+}
+function saveName(){
+ const name=document.getElementById('username').value.trim();
+ if(!name)return;
+ localStorage.setItem('janName',name);
+ document.getElementById('profileName').textContent='Welcome, '+name+'!';
+}
+</script>
+</body>
+</html>
